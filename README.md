@@ -20,7 +20,7 @@ Tiny http server engine written in [Swift](https://developer.apple.com/swift/) p
 ```swift
 let server = HttpServer()
 server["/hello"] = { .ok(.htmlBody("You asked for \($0)"))  }
-server.start()
+server.start{_ in}
 ```
 
 ### How to load HTML by string?
@@ -29,14 +29,14 @@ let server = HttpServer()
 server[path] = { request in
     return HttpResponse.ok(.text("<html string>"))
 }
-server.start()
+server.start{_ in}
 ```
 
 ### How to share files?
 ```swift
 let server = HttpServer()
 server["/desktop/:path"] = shareFilesFromDirectory("/Users/me/Desktop")
-server.start()
+server.start{_ in}
 ```
 ### How to redirect?
 ```swift
@@ -44,7 +44,7 @@ let server = HttpServer()
 server["/redirect"] = { request in
   return .movedPermanently("http://www.google.com")
 }
-server.start()
+server.start{_ in}
 ```
 ### How to HTML ?
 ```swift
@@ -56,7 +56,7 @@ server["/my_html"] = scopes {
     }
   }
 }
-server.start()
+server.start{_ in}
 ```
 ### How to WebSockets ?
 ```swift
@@ -66,18 +66,7 @@ server["/websocket-echo"] = websocket(text: { session, text in
 }, binary: { session, binary in
   session.writeBinary(binary)
 })
-server.start()
-```
-### CocoaPods? Yes.
-```ruby
-use_frameworks!
-
-pod 'Swifter', '~> 1.5.0'
-```
-
-### Carthage? Also yes.
-```
-github "httpswift/swifter" ~> 1.5.0
+server.start{_ in}
 ```
 
 ### Swift Package Manager.
@@ -87,7 +76,7 @@ import PackageDescription
 let package = Package(
     name: "MyServer",
     dependencies: [
-        .package(url: "https://github.com/httpswift/swifter.git", .upToNextMajor(from: "1.5.0"))
+        .package(url: "https://github.com/anik-appnap/swifter.git", .upToNextMajor(from: "1.5.0"))
     ]
 )
 ```
